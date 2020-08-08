@@ -6,21 +6,27 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from flaskblog.models import User
 
 
+#check whether the input info is valid
 class RegistrationForm(FlaskForm):
+    #check whether the username has a length of 2-20
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])
+    #check if the input is an email
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
+    #check if these 2 inputs are the same
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
+    #query. check if the new username already matches any existing username from the record
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError('That username is taken. Please choose a different one.')
 
+    #query. check if the new email already matches any existing email from the record
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:

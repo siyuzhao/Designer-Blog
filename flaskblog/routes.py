@@ -23,16 +23,20 @@ def about():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    # if the info is valid, go back to homepage
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
+    # generate new record of user data regarding the input, create a new user profile for him/her by db
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
+        # provide feedback to the user
         flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('login'))
+    # link the 'register.html' page
     return render_template('register.html', title='Register', form=form)
 
 
