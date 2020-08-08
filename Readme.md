@@ -1,8 +1,11 @@
-Description
+#Description
+
 This project is a blog-based website implemented with Flask. The purpose of this website is to provide a platform enabling product designers & other tech people to post their ideas and thoughts during this social distancing period.
 Via this website, the users will be able to post texts regarding news that interests them. They will also be able to view other posts and sort the posts by authors. This will help the users exchange ideas and get further inspiration.
  
-Requirement
+
+#Requirement
+
 Python 3.7 or higher
  
 Installation
