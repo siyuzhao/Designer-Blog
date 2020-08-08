@@ -34,8 +34,8 @@ def user_posts(username):
 ```
 # update the saved user.image_file (have to check if the input is a valid image), user.username, and user.email with the new input from the user; commit the changes and flash a sentence to inform the users
 if form.picture.data:
-picture_file = save_picture(form.picture.data)
-current_user.image_file = picture_file
+    picture_file = save_picture(form.picture.data)
+    current_user.image_file = picture_file
 current_user.username = form.username.data
 current_user.email = form.email.data
 db.session.commit()
