@@ -5,39 +5,35 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextA
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flaskblog.models import User
 
-
-#check whether the input info is valid
+#store the username and email from the input information
+#use validators to check the input format
 class RegistrationForm(FlaskForm):
-    #check whether the username has a length of 2-20
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])
-    #check if the input is an email
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
-    #check if these 2 inputs are the same
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
-
-    #query. check if the new username already matches any existing username from the record
+    #check if the username is already taken via query
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError('That username is taken. Please choose a different one.')
-
-    #query. check if the new email already matches any existing email from the record
+    #check if the username is already taken via query
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('That email is taken. Please choose a different one.')
 
 
-
+#check if the info of the user input is valid for these formats via serveral validators
 class LoginForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
+    #remember me checkbox and submit button
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
